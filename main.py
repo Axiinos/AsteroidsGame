@@ -1,6 +1,8 @@
 import pygame
 from constants import *
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 def main():
     
@@ -22,12 +24,22 @@ def main():
     # Groups
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
     
-    # player membership
+    # Player membership
     Player.containers = (updatable, drawable)
+    
+    # Asteroid Membership
+    Asteroid.containers = (asteroids, updatable, drawable)
+    
+    # Asteroid Field Membership
+    AsteroidField.containers = (updatable)
     
     # Player Object Spawn
     player = Player(x=SCREEN_WIDTH / 2, y=SCREEN_HEIGHT / 2)
+    
+    # Asteroid Field Object Spawn
+    asteroid_field = AsteroidField()
     
     # Infinite loop, keeps the game running until event has been triggered.
     while True:
@@ -42,11 +54,11 @@ def main():
         
         # Update members of the updatable group
         for obj in updatable:
-            obj.draw(screen)
+            obj.update(dt)
         
         # Update members of the drawable group
         for obj in drawable:
-            obj.update(dt)
+            obj.draw(screen)
         
         # Update the display
         pygame.display.flip()
