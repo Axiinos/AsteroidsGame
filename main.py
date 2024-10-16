@@ -17,12 +17,20 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH,
                                       SCREEN_HEIGHT))
     
+
+    
+    # Groups
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    
+    # player membership
+    Player.containers = (updatable, drawable)
+    
     # Player Object Spawn
     player = Player(x=SCREEN_WIDTH / 2, y=SCREEN_HEIGHT / 2)
     
     # Infinite loop, keeps the game running until event has been triggered.
     while True:
-        
         
         # Listen for event, such as QUIT
         for event in pygame.event.get():
@@ -31,8 +39,14 @@ def main():
         
         # Fill the screen with black and draw the player
         screen.fill("black")
-        player.draw(screen)
-        player.update(dt)
+        
+        # Update members of the updatable group
+        for obj in updatable:
+            obj.draw(screen)
+        
+        # Update members of the drawable group
+        for obj in drawable:
+            obj.update(dt)
         
         # Update the display
         pygame.display.flip()
