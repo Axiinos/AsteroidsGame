@@ -47,7 +47,8 @@ def main():
         # Listen for event, such as QUIT
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return
+                pygame.quit()
+                raise SystemExit
         
         # Fill the screen with black and draw the player
         screen.fill("black")
@@ -59,6 +60,13 @@ def main():
         # Update members of the drawable group
         for obj in drawable:
             obj.draw(screen)
+            
+        # Check for collisions
+        for asteroid in asteroids:
+            if player.collission(asteroid):
+                print("Game over!")
+                pygame.quit()
+                raise SystemExit
         
         # Update the display
         pygame.display.flip()
