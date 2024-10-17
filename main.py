@@ -40,7 +40,7 @@ def main():
     
     # Player Object Spawn
     player = Player(x=SCREEN_WIDTH / 2, y=SCREEN_HEIGHT / 2)
-    
+
     # Asteroid Field Object Spawn
     asteroid_field = AsteroidField()
     
@@ -65,11 +65,18 @@ def main():
             obj.draw(screen)
             
         # Check for collisions
-        for asteroid in asteroids:
-            if player.collission(asteroid):
+        for obj in asteroids:
+            for shot in shots:
+                if shot.collission(obj):
+                    obj.split()
+                    shot.kill()
+                
+            
+            if player.collission(obj):
                 print("Game over!")
                 pygame.quit()
                 raise SystemExit
+            
         
         # Update the display
         pygame.display.flip()
